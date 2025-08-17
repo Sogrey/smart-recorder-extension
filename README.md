@@ -1,0 +1,224 @@
+# 智能录制器 - Chrome Extension
+
+一款基于Vue 3 + TypeScript的智能网页操作录制浏览器插件，能够自动捕捉用户在网页上的操作并生成图文教程。
+
+## ✨ 功能特性
+
+- 🎥 **智能录制**: 自动捕捉点击操作，支持跨页面录制
+- 📱 **侧边栏界面**: 类似智写流程的侧边栏操作界面
+- 🔍 **页面信息追踪**: 记录每个操作的页面上下文信息
+- 🚫 **智能去重**: 多层去重机制，避免重复记录
+- 💾 **本地存储**: 使用Chrome Storage API，数据安全可靠
+- 🎨 **现代UI**: 基于Tailwind CSS的美观界面
+- 🔒 **隐私保护**: 本地存储，数据不上传
+
+## 🚀 技术栈
+
+- **前端框架**: Vue 3 + TypeScript
+- **构建工具**: Vite
+- **状态管理**: Pinia
+- **样式方案**: Tailwind CSS
+- **浏览器API**: Chrome Extension Manifest V3
+- **测试框架**: Vitest + Vue Test Utils
+
+## 📦 安装依赖
+
+```bash
+# 使用 npm
+npm install
+
+# 使用 yarn
+yarn install
+
+# 使用 pnpm
+pnpm install
+```
+
+## 🛠️ 开发命令
+
+```bash
+# 开发模式
+npm run dev
+
+# 构建扩展
+npm run build:extension
+
+# 代码检查
+npm run lint
+
+# 代码格式化
+npm run format
+
+# 运行测试
+npm run test
+```
+
+## 🏗️ 项目结构
+
+```
+src/
+├── popup/           # 弹出窗口
+│   ├── index.html   # 弹出窗口HTML
+│   ├── main.ts      # 弹出窗口入口
+│   ├── PopupApp.vue # 弹出窗口主组件
+│   └── style.css    # 弹出窗口样式
+├── background/      # 后台脚本
+│   └── background.ts # Service Worker (录制状态管理)
+├── content/         # 内容脚本
+│   └── content.ts   # 页面注入脚本 (事件监听和录制)
+├── stores/          # 状态管理
+│   └── recording.ts # 录制状态管理
+├── components/      # 通用组件
+├── utils/           # 工具函数
+├── types/           # 类型定义
+├── App.vue          # 主应用组件
+├── main.ts          # 应用入口
+└── style.css        # 全局样式
+
+extension/           # 构建输出目录
+├── manifest.json    # 扩展清单文件
+├── background.js    # 后台脚本
+├── content.js       # 内容脚本
+├── popup.js         # 弹出窗口脚本
+├── sidepanel.html   # 侧边栏HTML
+├── sidepanel.js     # 侧边栏脚本
+└── sidepanel.css    # 侧边栏样式
+```
+
+## 🔧 开发环境配置
+
+1. **克隆项目**
+   ```bash
+   git clone <repository-url>
+   cd smart-recorder-extension
+   ```
+
+2. **安装依赖**
+   ```bash
+   npm install
+   ```
+
+3. **启动开发服务器**
+   ```bash
+   npm run dev
+   ```
+
+4. **构建扩展**
+   ```bash
+   npm run build:extension
+   ```
+
+5. **在Chrome中加载扩展**
+   - 打开 `chrome://extensions/`
+   - 开启"开发者模式"
+   - 点击"加载已解压的扩展程序"
+   - 选择 `dist` 目录
+
+## 📱 使用方法
+
+1. **安装扩展**: 从Chrome Web Store安装或开发者模式加载
+2. **开始录制**: 点击扩展图标，侧边栏自动打开，点击"开始录制"
+3. **操作网页**: 正常使用网页，扩展会自动记录点击操作
+4. **跨页面录制**: 支持点击链接跳转后的继续录制
+5. **实时预览**: 在侧边栏中实时查看录制的操作步骤
+6. **停止录制**: 点击"停止录制"完成录制
+
+## 🔧 技术特性
+
+- **多层去重机制**: 事件对象、事件ID、存储层面、广播层面的全方位去重
+- **统一广播机制**: 避免双重广播，确保每个操作只记录一次
+- **页面信息追踪**: 记录每个操作的完整页面上下文
+- **侧边栏界面**: 使用Chrome Side Panel API，提供沉浸式录制体验
+
+## 🧪 测试
+
+```bash
+# 运行单元测试
+npm run test
+
+# 运行测试并显示UI
+npm run test:ui
+
+# 运行测试覆盖率
+npm run test -- --coverage
+```
+
+## 📋 开发计划
+
+### 第一阶段：基础架构搭建 ✅ **已完成**
+- [x] 项目初始化和环境配置
+- [x] Chrome Extension Manifest配置
+- [x] 基础UI框架搭建
+- [x] 核心API封装
+- [x] 开发环境配置
+- [x] 基础录制功能实现
+- [x] 侧边栏界面开发
+- [x] 事件监听和去重机制
+- [x] 页面信息追踪功能
+
+### 第二阶段：核心功能开发 🚧 **进行中**
+- [x] 事件监听系统实现
+- [x] 操作轨迹记录功能
+- [ ] 基础截图功能
+- [x] 数据存储机制
+- [x] 录制控制逻辑
+- [ ] 更多事件类型支持（input、scroll等）
+- [ ] 智能元素识别
+- [ ] 录制会话管理
+
+### 第三阶段：教程生成功能 📋 **待开始**
+- [ ] 步骤分析算法
+- [ ] 文字描述生成
+- [ ] 教程模板系统
+- [ ] 格式转换功能
+- [ ] 导出功能实现
+
+### 第四阶段：用户界面完善 📋 **待开始**
+- [x] 录制控制界面
+- [x] 实时预览功能
+- [ ] 编辑界面开发
+- [ ] 设置和配置页面
+- [ ] 响应式设计优化
+
+### 第五阶段：测试和优化 📋 **待开始**
+- [ ] 功能测试
+- [ ] 性能优化
+- [ ] 兼容性测试
+- [ ] 用户体验优化
+- [ ] 文档编写
+
+## 🤝 贡献指南
+
+1. Fork 项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 📞 联系我们
+
+- 项目主页: [GitHub Repository]
+- 问题反馈: [Issues]
+- 功能建议: [Discussions]
+
+## 🙏 致谢
+
+感谢所有为这个项目做出贡献的开发者和用户！
+
+---
+
+## 🎉 第一阶段完成总结
+
+**第一阶段已成功完成！** 我们实现了：
+
+- ✅ **完整的录制架构**: 从事件监听到数据存储的完整流程
+- ✅ **智能去重机制**: 解决了重复记录的核心技术难题
+- ✅ **侧边栏界面**: 类似智写流程的用户体验
+- ✅ **跨页面支持**: 支持页面跳转后的继续录制
+- ✅ **页面信息追踪**: 为后续教程生成奠定基础
+
+**注意**: 这是一个开发中的项目，第一阶段已完成，第二阶段正在进行中。请关注更新日志了解最新进展。
