@@ -101,6 +101,27 @@ sidepanelFiles.forEach(file => {
 
 console.log('✅ 侧边栏文件复制完成')
 
+// 复制离屏文档文件
+console.log('🔧 复制离屏文档文件...')
+const offscreenFiles = [
+  'offscreen.html',
+  'offscreen.js'
+]
+
+offscreenFiles.forEach(file => {
+  const srcPath = path.join(__dirname, '..', 'public', file)
+  const destPath = path.join(extensionDir, file)
+  
+  if (fs.existsSync(srcPath)) {
+    fs.copyFileSync(srcPath, destPath)
+    console.log(`✅ 已复制离屏文档文件: ${file}`)
+  } else {
+    console.log(`⚠️  离屏文档文件不存在: ${file}`)
+  }
+})
+
+console.log('✅ 离屏文档文件复制完成')
+
 // 创建popup.html
 console.log('🔧 创建popup.html...')
 const popupHTML = `<!DOCTYPE html>

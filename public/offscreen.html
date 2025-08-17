@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能录制器 - 离屏文档</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            overflow: hidden;
+        }
+        
+        /* 点击位置标记容器 */
+        .click-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* 半透明橙色径向渐变圆圈（去掉红色矩形框） */
+        .click-marker::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                circle,
+                rgba(255, 165, 0, 0.8) 0%,
+                rgba(255, 165, 0, 0.6) 40%,
+                rgba(255, 165, 0, 0.4) 70%,
+                rgba(255, 165, 0, 0.2) 100%
+            );
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 点击位置标记容器 -->
+    <div id="click-markers-container"></div>
+    
+    <script src="offscreen.js"></script>
+</body>
+</html>

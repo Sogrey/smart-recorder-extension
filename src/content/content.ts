@@ -89,7 +89,10 @@
         title: document.title,
         hostname: window.location.hostname,
         pathname: window.location.pathname
-      }
+      },
+      // 截图相关字段
+      hasScreenshot: false,
+      screenshot: null
     }
   }
 
@@ -101,6 +104,23 @@
       if (classes.length > 0) return `.${classes[0]}`
     }
     return element.tagName.toLowerCase()
+  }
+
+  // 检查是否为可跳转的元素
+  function isNavigableElement(element: Element): boolean {
+    const tagName = element.tagName.toLowerCase()
+    
+    // 检查是否为链接、按钮或其他可跳转元素
+    return (
+      tagName === 'a' || 
+      tagName === 'button' ||
+      (element as any).onclick ||
+      (element as any).getAttribute('onclick') ||
+      (element as any).getAttribute('data-href') ||
+      (element as any).getAttribute('href') ||
+      element.closest('a') !== null ||
+      element.closest('button') !== null
+    )
   }
 
   // 记录步骤 - 在存储层面进行去重
@@ -143,6 +163,40 @@
         
         // 不再发送消息，只依赖存储变化监听器自动广播
         console.log('步骤已保存到存储，等待 Background Script 自动广播')
+        
+        // 如果是点击事件，手动触发截图（调试用）
+        if (step.type === 'click') {
+          console.log('🔄 手动触发截图处理...')
+          
+          // 检查是否为可跳转的元素
+          const target = step.target || document.activeElement
+          const isNavigable = target ? isNavigableElement(target) : false
+          
+          if (isNavigable) {
+            console.log('🔗 检测到可跳转元素，立即发送截图请求...')
+            // 对于可跳转元素，立即发送截图请求
+            try {
+              await chrome.runtime.sendMessage({
+                type: 'MANUAL_SCREENSHOT',
+                data: step
+              })
+              console.log('✅ 可跳转元素截图消息已发送')
+            } catch (error) {
+              console.log('⚠️ 可跳转元素截图消息发送失败:', error)
+            }
+          } else {
+            // 普通元素，正常处理
+            try {
+              await chrome.runtime.sendMessage({
+                type: 'MANUAL_SCREENSHOT',
+                data: step
+              })
+              console.log('✅ 普通元素截图消息已发送')
+            } catch (error) {
+              console.log('⚠️ 普通元素截图消息发送失败:', error)
+            }
+          }
+        }
       } else {
         console.log('当前没有录制会话，无法保存步骤')
       }
